@@ -200,7 +200,7 @@ function renderWeather(weather, stale = false) {
 
 async function ensureDataLoaded() {
   if (!state.blocos) {
-    const csvResponse = await fetch('blocos.csv');
+    const csvResponse = await fetch('./blocos.csv');
     const csvText = await csvResponse.text();
     state.blocos = parseCSV(csvText);
   }
