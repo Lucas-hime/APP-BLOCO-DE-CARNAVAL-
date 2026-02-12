@@ -1,0 +1,146 @@
+:root {
+  --bg-1: #080b16;
+  --bg-2: #111a2f;
+  --text: #f6f8ff;
+  --muted: #adbbd5;
+  --glass: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+  --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at 20% 20%, #1f2740 0%, transparent 30%),
+    radial-gradient(circle at 80% 0%, #351a4a 0%, transparent 40%),
+    linear-gradient(155deg, var(--bg-1), var(--bg-2));
+}
+
+.app-shell {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+h1 { margin: 0 0 0.4rem; font-size: clamp(1.7rem, 3.5vw, 2.2rem); }
+h2 { margin-top: 0; font-size: 1.2rem; }
+h3 { margin-top: 0; }
+p { margin: 0.45rem 0; }
+
+.badge {
+  display: inline-block;
+  margin-top: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  background: rgba(17, 221, 143, 0.2);
+  border: 1px solid rgba(17, 221, 143, 0.45);
+}
+
+.muted { color: var(--muted); }
+
+.btn {
+  border: 0;
+  border-radius: 14px;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active { transform: translateY(1px) scale(0.99); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-gradient-warm { background: linear-gradient(135deg, #ff9f1c, #f94144); }
+.btn-gradient-cool { background: linear-gradient(135deg, #3a86ff, #2ec4b6); }
+
+.btn-lg {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.95rem 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.btn-small {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 0.55rem 0.8rem;
+}
+
+.small-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.results {
+  display: grid;
+  gap: 0.8rem;
+  padding-bottom: 1rem;
+}
+
+.bloco-card {
+  cursor: pointer;
+}
+
+.bloco-card:focus-visible {
+  outline: 2px solid #8fe6c3;
+  outline-offset: 2px;
+}
+
+.hidden { display: none; }
+
+#weather-content {
+  display: grid;
+  gap: 0.3rem;
+  margin-bottom: 0.7rem;
+}
+
+.modal {
+  width: min(92vw, 420px);
+  color: var(--text);
+}
+
+.modal::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+input {
+  width: 100%;
+  margin: 0.6rem 0 1rem;
+  padding: 0.7rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.modal-actions,
+.selection-buttons {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 768px) {
+  .app-shell { padding: 1.3rem; }
+}
