@@ -1,0 +1,22 @@
+[
+  { "name": "Carioca", "latitude": -22.9071, "longitude": -43.1783 },
+  { "name": "Cinelândia", "latitude": -22.9102, "longitude": -43.1767 },
+  { "name": "Uruguaiana", "latitude": -22.9028, "longitude": -43.1808 },
+  { "name": "Presidente Vargas", "latitude": -22.9047, "longitude": -43.1902 },
+  { "name": "Central", "latitude": -22.9039, "longitude": -43.1926 },
+  { "name": "Glória", "latitude": -22.9183, "longitude": -43.1760 },
+  { "name": "Catete", "latitude": -22.9254, "longitude": -43.1775 },
+  { "name": "Largo do Machado", "latitude": -22.9308, "longitude": -43.1798 },
+  { "name": "Flamengo", "latitude": -22.9370, "longitude": -43.1779 },
+  { "name": "Botafogo", "latitude": -22.9512, "longitude": -43.1821 },
+  { "name": "Cardeal Arcoverde", "latitude": -22.9645, "longitude": -43.1754 },
+  { "name": "Siqueira Campos", "latitude": -22.9689, "longitude": -43.1862 },
+  { "name": "Cantagalo", "latitude": -22.9802, "longitude": -43.1986 },
+  { "name": "General Osório", "latitude": -22.9844, "longitude": -43.1988 },
+  { "name": "Nossa Senhora da Paz", "latitude": -22.9858, "longitude": -43.2060 },
+  { "name": "Jardim de Alah", "latitude": -22.9832, "longitude": -43.2172 },
+  { "name": "Antero de Quental", "latitude": -22.9858, "longitude": -43.2234 },
+  { "name": "São Conrado", "latitude": -22.9937, "longitude": -43.2672 },
+  { "name": "Saens Peña", "latitude": -22.9245, "longitude": -43.2324 },
+  { "name": "Maracanã", "latitude": -22.9128, "longitude": -43.2302 }
+]
