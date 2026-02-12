@@ -1,7 +1,6 @@
 const LOCATION_KEY = 'blocosrj.location';
 const WEATHER_KEY = 'blocosrj.weather';
 const RESULTS_KEY = 'blocosrj.results';
-const BLOCOS_CACHE_KEY = 'blocosrj.blocos';
 
 const state = {
   userLocation: null,
@@ -222,16 +221,10 @@ async function loadBlocosData() {
     const parsedRows = parseCSV(csvText);
     console.log('[BlocosRJ] Parsed CSV rows:', parsedRows.length);
 
-    localStorage.setItem(BLOCOS_CACHE_KEY, JSON.stringify({
-      updatedAt: new Date().toISOString(),
-      rows: parsedRows,
-    }));
-
     return parsedRows;
   } catch (error) {
-    console.warn('[BlocosRJ] Failed to fetch latest CSV. Using cached rows if available.', error);
-    const cachedRows = restoreCachedBlocos();
-    return cachedRows || state.blocos || [];
+    console.warn('[BlocosRJ] Failed to fetch latest CSV.', error);
+    return state.blocos || [];
   }
 }
 
@@ -249,18 +242,6 @@ async function loadMetroStations() {
   } catch (error) {
     console.warn('[BlocosRJ] Metro load failed.', error);
     return [];
-  }
-}
-
-function restoreCachedBlocos() {
-  const cached = localStorage.getItem(BLOCOS_CACHE_KEY);
-  if (!cached) return null;
-
-  try {
-    const parsed = JSON.parse(cached);
-    return Array.isArray(parsed.rows) ? parsed.rows : null;
-  } catch (_) {
-    return null;
   }
 }
 
