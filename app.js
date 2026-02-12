@@ -200,12 +200,9 @@ function renderWeather(weather, stale = false) {
 
 async function ensureDataLoaded() {
   if (!state.blocos) {
-    const csvResponse = await fetch('blocos.csv');
-    console.log('[BlocosRJ] CSV fetch status:', csvResponse.status, csvResponse.statusText);
+    const csvResponse = await fetch('./blocos.csv');
     const csvText = await csvResponse.text();
-    console.log('[BlocosRJ] CSV content length:', csvText.length);
     state.blocos = parseCSV(csvText);
-    console.log('[BlocosRJ] Parsed CSV rows:', state.blocos.length);
   }
   if (!state.metroStations.length) {
     const metroResponse = await fetch('metro_stations.json');
@@ -214,37 +211,10 @@ async function ensureDataLoaded() {
 }
 
 function parseCSV(text) {
-  const normalized = text
-    .replace(/^\uFEFF/, '')
-    .replace(/\r\n?/g, '\n')
-    .trim();
-
-  if (!normalized) {
-    console.warn('[BlocosRJ] CSV is empty after normalization.');
-    return [];
-  }
-
-  const lines = normalized
-    .split('\n')
-    .map((line) => line.trim())
-    .filter((line) => line.length > 0);
-
-  const headerLine = lines.shift();
-  if (!headerLine || !headerLine.includes(',')) {
-    console.error('[BlocosRJ] CSV must use comma separator. Header line:', headerLine);
-    return [];
-  }
-
-  const headers = splitCSVLine(headerLine).map((header) => header.trim());
-
-  return lines
-    .map((line) => {
-      const values = splitCSVLine(line).map((value) => value.trim());
-
-      if (values.every((value) => value === '')) {
-        return null;
-      }
-
+  const lines = text.trim().split(/\r?\n/);
+  const headers = lines.shift().split(',');
+  return lines.map((line) => {
+    const values = line.split(',');
     const obj = {};
     headers.forEach((header, idx) => {
       obj[header] = values[idx] ?? '';
@@ -252,41 +222,7 @@ function parseCSV(text) {
     obj.latitude = obj.latitude ? Number(obj.latitude) : null;
     obj.longitude = obj.longitude ? Number(obj.longitude) : null;
     return obj;
-    })
-    .filter(Boolean);
-}
-
-function splitCSVLine(line) {
-  const result = [];
-  let current = '';
-  let inQuotes = false;
-
-  for (let i = 0; i < line.length; i += 1) {
-    const char = line[i];
-    const nextChar = line[i + 1];
-
-    if (char === '"' && inQuotes && nextChar === '"') {
-      current += '"';
-      i += 1;
-      continue;
-    }
-
-    if (char === '"') {
-      inQuotes = !inQuotes;
-      continue;
-    }
-
-    if (char === ',' && !inQuotes) {
-      result.push(current);
-      current = '';
-      continue;
-    }
-
-    current += char;
-  }
-
-  result.push(current);
-  return result;
+  });
 }
 
 async function findNearbyBlocos() {
@@ -307,8 +243,6 @@ async function findNearbyBlocos() {
     })
     .filter((bloco) => bloco.distance <= 5)
     .sort((a, b) => a.distance - b.distance);
-
-  console.log('[BlocosRJ] Nearby matches within 5km:', matches.length);
 
   renderResults(matches, 'nearby');
 }
