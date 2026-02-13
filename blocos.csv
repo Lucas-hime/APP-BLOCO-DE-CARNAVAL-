@@ -1,7 +1,72 @@
 nome_bloco,data,hora_concentracao,endereco_concentracao,bairro,latitude,longitude
-Cordão da Bola Preta,15/02/2026,09:00,Rua Primeiro de Março 66,Centro,-22.9035,-43.1752
-Sargento Pimenta,15/02/2026,14:00,Aterro do Flamengo,Flamengo,-22.9301,-43.1729
-Simpatia é Quase Amor,15/02/2026,16:30,Praça General Osório,Ipanema,-22.9848,-43.1982
-Monobloco,15/02/2026,10:30,Circo Voador,Lapa,-22.9139,-43.1798
-Carmelitas,15/02/2026,13:00,Ladeira de Santa Teresa,Santa Teresa,-22.9199,-43.1842
-Bloco sem coordenadas,15/02/2026,12:00,Rua Exemplo 123,Tijuca,,
+Bloco do Viaduto Velho,2026-02-13,14:00,"Av. Giovanni Gronchi, 5819",Morumbi,-23.6185,-46.7197
+Coruja do Morro,2026-02-13,14:00,"R. Prof. Filadelfo Azevedo, 1400",Morumbi,-23.6063,-46.7028
+Folia do Rockefeller,2026-02-13,14:30,"Av. Morumbi, 6500",Morumbi,-23.6224,-46.7160
+Bloco Pinheirinho em Festa,2026-02-13,14:00,"R. dos Pinheiros, 173",Pinheiros,-23.5659,-46.6836
+Samba do Baixo Pinheiros,2026-02-13,15:00,"Largo de Pinheiros, 10",Pinheiros,-23.5638,-46.6794
+Bloco da Praça do Pôr do Sol,2026-02-13,15:30,"Praça Victor Civita, 1",Pinheiros,-23.5670,-46.6985
+Bloco da Rua Wisard,2026-02-13,14:00,"R. Wisard, 305",Vila Madalena,-23.5551,-46.6910
+Minhocrô Folia,2026-02-13,14:30,"R. Mourato Coelho, 1200",Vila Madalena,-23.5570,-46.6929
+Bloco do Beco do Batman,2026-02-13,15:00,"R. Gonçalo Afonso, 46",Vila Madalena,-23.5521,-46.6931
+Farra do Harmônica,2026-02-13,15:00,"R. Harmonia, 88",Vila Madalena,-23.5531,-46.6939
+Bloco dos Jardins Samba,2026-02-13,15:00,"R. Oscar Freire, 800",Jardins,-23.5618,-46.6701
+Cacique do Oscar Freire,2026-02-13,16:00,"R. Haddock Lobo, 1626",Jardins,-23.5645,-46.6728
+Bloco das Alamedas,2026-02-13,16:00,"Al. Lorena, 500",Jardins,-23.5666,-46.6672
+Coruja da Paulista,2026-02-13,14:00,"Av. Paulista, 1000",Bela Vista,-23.5619,-46.6545
+Bloco do MASP,2026-02-13,15:00,"Av. Paulista, 1578",Bela Vista,-23.5613,-46.6558
+Samba da Consolação,2026-02-13,16:00,"R. da Consolação, 222",Consolação,-23.5538,-46.6577
+Bloco da Bela Vista,2026-02-13,14:30,"R. 13 de Maio, 400",Bela Vista,-23.5648,-46.6518
+Folia do Bixiga,2026-02-13,15:00,"R. Treze de Maio, 596",Bixiga,-23.5657,-46.6502
+Bloco Liberdade Sampa,2026-02-13,16:00,"R. Galvão Bueno, 540",Liberdade,-23.5650,-46.6385
+Samba do Mercadão,2026-02-13,17:00,"R. da Cantareira, 306",Centro,-23.5414,-46.6349
+Bloco do Morumbi Saudade,2026-02-13,14:00,"R. Deputado Lacerda Franco, 300",Morumbi,-23.5964,-46.7048
+Folia do Clube Pinheiros,2026-02-13,14:00,"R. Deputado Lacerda Franco, 200",Pinheiros,-23.5960,-46.7042
+Bloco da Fernão Dias,2026-02-13,14:30,"R. Fernão Dias, 600",Pinheiros,-23.5697,-46.6880
+Carnaval da Haddock,2026-02-13,15:00,"R. Haddock Lobo, 200",Pinheiros,-23.5563,-46.6622
+Bloco do Espeto,2026-02-13,14:00,"R. Aspicuelta, 520",Vila Madalena,-23.5535,-46.6897
+Pelé do Samba Madá,2026-02-13,15:00,"R. Fradique Coutinho, 900",Vila Madalena,-23.5574,-46.6862
+Bloco da Augusta Cima,2026-02-13,15:00,"R. Augusta, 2600",Consolação,-23.5579,-46.6600
+Bloco da Augusta Baixo,2026-02-13,16:00,"R. Augusta, 800",Consolação,-23.5516,-46.6530
+Sereia da Paulista,2026-02-13,14:00,"Av. Paulista, 2073",Bela Vista,-23.5630,-46.6584
+Bloco Estação Trianon,2026-02-13,15:00,"Av. Paulista, 1300",Bela Vista,-23.5614,-46.6552
+Folia da Brigadeiro,2026-02-13,15:30,"Av. Brigadeiro Luís Antônio, 900",Bela Vista,-23.5680,-46.6497
+Bloco dos Antiquários,2026-02-13,16:00,"R. Avanhandava, 80",Bela Vista,-23.5502,-46.6446
+Dragão da Liberdade,2026-02-13,15:00,"R. Glicério, 520",Liberdade,-23.5677,-46.6368
+Bloco do Torii,2026-02-13,16:00,"Praça da Liberdade, 100",Liberdade,-23.5599,-46.6360
+Folia da Sé,2026-02-13,17:00,"Praça da Sé, 1",Sé,-23.5503,-46.6334
+Bloco do Estádio,2026-02-13,14:00,"Praça Roberto Gomes Pedrosa, 1",Morumbi,-23.6002,-46.7197
+Folia do Campo,2026-02-13,14:30,"Av. Morumbi, 1800",Morumbi,-23.5940,-46.7108
+Bloco do Pombo,2026-02-13,14:00,"R. dos Pinheiros, 700",Pinheiros,-23.5673,-46.6814
+Pagode da Ópera,2026-02-13,15:00,"R. Cardeal Arcoverde, 1150",Pinheiros,-23.5594,-46.6823
+Bloco da Prainha Madalena,2026-02-13,14:30,"Praça Amadeu Amaral, 50",Vila Madalena,-23.5508,-46.6885
+Saci do Samba,2026-02-13,15:00,"R. Medeiros de Albuquerque, 190",Vila Madalena,-23.5518,-46.6918
+Bloco da Viela,2026-02-13,15:30,"R. Fidalga, 300",Vila Madalena,-23.5561,-46.6941
+Gato de Sete Vidas,2026-02-13,16:00,"R. Simão Álvares, 50",Pinheiros,-23.5649,-46.6853
+Bloco Jardim das Folias,2026-02-13,14:00,"Al. Campinas, 600",Jardins,-23.5680,-46.6595
+Folia do Itambé,2026-02-13,15:00,"Al. Itambé, 300",Higienópolis,-23.5440,-46.6609
+Bloco da Higienópolis,2026-02-13,15:00,"Al. Barão de Limeira, 100",Higienópolis,-23.5406,-46.6574
+Bacalhau da Paulista,2026-02-13,16:00,"Av. Paulista, 726",Bela Vista,-23.5607,-46.6529
+Bloco da República,2026-02-13,15:00,"Praça da República, 1",República,-23.5434,-46.6430
+Samba do Anhangabaú,2026-02-13,16:00,"Vale do Anhangabaú, 1",Centro,-23.5440,-46.6380
+Bloco do Largo São Bento,2026-02-13,17:00,"Largo de São Bento, 100",Centro,-23.5351,-46.6338
+Bloco do Espelho d'Água,2026-02-13,14:00,"Av. Giovanni Gronchi, 7000",Morumbi,-23.6226,-46.7235
+Folia do Palácio,2026-02-13,14:30,"Av. Morumbi, 4500",Morumbi,-23.6110,-46.7180
+Bloco Sumarezinho Folia,2026-02-13,14:00,"Praça Panamericana, 30",Sumaré,-23.5400,-46.6748
+Carnaval da Pompeia,2026-02-13,14:00,"R. Clélia, 93",Pompeia,-23.5330,-46.6807
+Bloco do SESC Pompeia,2026-02-13,15:00,"R. Clélia, 93",Pompeia,-23.5330,-46.6807
+Samba da Vila,2026-02-13,14:30,"R. Mourato Coelho, 800",Vila Madalena,-23.5558,-46.6907
+Bloco da Fradique,2026-02-13,15:00,"R. Fradique Coutinho, 100",Vila Madalena,-23.5609,-46.6858
+Coruja da Paulista Terça,2026-02-13,14:00,"Av. Paulista, 1100",Bela Vista,-23.5616,-46.6548
+Bloco da Bienal,2026-02-13,15:00,"Av. Paulista, 37",Bela Vista,-23.5640,-46.6487
+Folia da Sete de Abril,2026-02-13,16:00,"R. Sete de Abril, 200",República,-23.5447,-46.6440
+Bloco do Viaduto do Chá,2026-02-13,16:00,"Viaduto do Chá, 1",Centro,-23.5462,-46.6388
+Samba da Praça do Patriarca,2026-02-13,16:30,"Praça do Patriarca, 50",Centro,-23.5470,-46.6363
+Bloco do Pátio do Colégio,2026-02-13,17:00,"Praça Pateo do Collegio, 2",Sé,-23.5472,-46.6316
+Último Copo Morumbi,2026-02-13,14:00,"Av. Giovanni Gronchi, 3800",Morumbi,-23.6138,-46.7134
+Bloco do Adeus Pinheiros,2026-02-13,14:30,"Largo de Pinheiros, 50",Pinheiros,-23.5640,-46.6797
+Despedida da Madalena,2026-02-13,15:00,"R. Wisard, 490",Vila Madalena,-23.5558,-46.6916
+Bloco do Último Samba,2026-02-13,15:00,"R. Oscar Freire, 1200",Jardins,-23.5626,-46.6718
+Quarta-Feira da Paulista,2026-02-13,15:00,"Av. Paulista, 900",Bela Vista,-23.5612,-46.6540
+Bloco Me Enterra na Quarta SP,2026-02-13,16:00,"R. da Consolação, 1800",Consolação,-23.5565,-46.6600
+Samba do Fim Liberdade,2026-02-13,16:00,"R. Galvão Bueno, 150",Liberdade,-23.5615,-46.6374
+Bloco do Marco Zero SP,2026-02-13,17:00,"Praça da Sé, 1",Sé,-23.5503,-46.6334
