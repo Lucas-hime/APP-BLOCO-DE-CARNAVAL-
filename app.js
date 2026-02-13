@@ -662,7 +662,7 @@ function toDate(dateText, hourText) {
 
 function findNearestMetro(bloco) {
   if (!Number.isFinite(bloco.latitude) || !Number.isFinite(bloco.longitude)) {
-    return '🚇 Metrô: coordenadas do bloco ausentes';
+    return '🚇 Metrô mais próximo da concentração: coordenadas do bloco ausentes';
   }
 
   let nearest = null;
@@ -673,7 +673,11 @@ function findNearestMetro(bloco) {
     }
   }
 
-  return `🚇 Descer no metrô: ${nearest?.name ?? 'Indefinido'}`;
+  if (!nearest) {
+    return '🚇 Metrô mais próximo da concentração: Indefinido';
+  }
+
+  return `🚇 Metrô mais próximo da concentração: ${nearest.name} (${nearest.distance.toFixed(2)} km)`;
 }
 
 function haversine(lat1, lon1, lat2, lon2) {
@@ -967,7 +971,7 @@ async function renderPlanningCatalog() {
 async function shareSelectedBloco() {
   if (!state.selectedBloco) return;
   const bloco = state.selectedBloco;
-  const metroLine = bloco.metro?.replace('🚇 ', '') || 'Indefinido';
+  const metroLine = bloco.metro?.replace('🚇 Metrô mais próximo da concentração: ', '') || 'Indefinido';
   const text = `Vou para o bloco ${bloco.nome_bloco} 🎭\nLocal: ${bloco.endereco_concentracao}\nMetrô mais próximo: ${metroLine}`;
 
   await shareText(text, bloco.nome_bloco);
