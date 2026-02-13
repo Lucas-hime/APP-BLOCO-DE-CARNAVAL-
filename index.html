@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1020" />
+    <meta
+      name="description"
+      content="Encontre blocos de carnaval perto de você, salve seu planejamento e compartilhe com a galera."
+    />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AD%3C/text%3E%3C/svg%3E" />
+    <title>Blocos RJ 🎭</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="hero card">
+        <h1>Blocos RJ 🎭</h1>
+        <p>Encontre blocos perto de você e compartilhe com a galera</p>
+        <span class="badge">🟢 Pronto</span>
+      </header>
+
+      <section class="card" aria-labelledby="location-title">
+        <h2 id="location-title">📍 Sua localização</h2>
+        <p id="location-status">Detectando localização...</p>
+        <p id="location-coords" class="muted"></p>
+
+        <div id="location-confirmation" class="location-confirm hidden" aria-live="polite">
+          <p><strong>Confirme sua localização manual:</strong></p>
+          <p id="pending-location-label" class="muted"></p>
+          <div class="small-actions">
+            <button id="confirm-manual-location" class="btn btn-gradient-cool" type="button">✅ Confirmar localização</button>
+            <button id="cancel-manual-location" class="btn btn-small" type="button">Cancelar</button>
+          </div>
+        </div>
+
+        <div class="small-actions">
+          <button id="change-location" class="btn btn-gradient-warm" type="button">Alterar localização</button>
+          <button id="request-gps" class="btn btn-small" type="button">📡 Solicitar localização automática</button>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="weather-title">
+        <h2 id="weather-title">🌦️ Clima agora</h2>
+        <div id="weather-content">
+          <p class="muted">Aguardando localização para carregar clima.</p>
+        </div>
+        <button id="refresh-weather" class="btn btn-gradient-cool" type="button" disabled>Atualizar clima</button>
+      </section>
+
+      <section class="actions card" aria-label="Ações principais">
+        <button id="nearby-btn" class="btn btn-lg btn-gradient-warm" type="button">🎭 Blocos perto de mim até 5 km</button>
+        <button id="next-hours-btn" class="btn btn-lg btn-gradient-cool" type="button">⏰ Blocos nas próximas 3 horas</button>
+        <button id="all-blocos-btn" class="btn btn-lg btn-gradient-lime" type="button">📋 Listar todos os blocos</button>
+        <div class="small-actions">
+          <button id="clear-results" class="btn btn-small" type="button">Limpar resultados</button>
+          <button id="retry-location" class="btn btn-small" type="button">Repetir localização</button>
+        </div>
+      </section>
+
+      <section id="selection-section" class="card hidden" aria-live="polite">
+        <h2 id="selected-title"></h2>
+        <div class="selection-buttons">
+          <button id="confirm-bloco" class="btn btn-gradient-warm" type="button">🎉 Vou para este bloco</button>
+          <button id="save-selected-bloco" class="btn btn-gradient-lime" type="button">💾 Salvar no planejamento</button>
+          <button id="share-bloco" class="btn btn-gradient-cool" type="button">📲 Compartilhar</button>
+        </div>
+      </section>
+
+      <section id="results" class="results" aria-live="polite"></section>
+
+      <section id="planning-section" class="card" aria-live="polite">
+        <h2>🗓️ Planejamento de blocos</h2>
+        <p class="muted">Salve os blocos que você vai e compartilhe sua agenda com a galera.</p>
+        <div class="small-actions planning-actions">
+          <button id="load-planning-base" class="btn btn-small" type="button">Carregar blocos na aba</button>
+          <button id="share-planning" class="btn btn-gradient-cool" type="button">📤 Compartilhar planejamento</button>
+          <button id="clear-planning" class="btn btn-small" type="button">Limpar planejamento</button>
+        </div>
+        <div id="planning-list" class="results"></div>
+      </section>
+    </main>
+
+    <dialog id="location-modal" class="card modal">
+      <form id="manual-location-form" novalidate>
+        <h3>Digite seu bairro ou endereço</h3>
+        <label for="manual-location-input" class="muted">Ex: Copacabana, Rio de Janeiro</label>
+        <input id="manual-location-input" name="location" minlength="2" placeholder="Bairro ou endereço" />
+        <div class="modal-actions">
+          <button id="cancel-manual-modal" class="btn btn-small" type="button">Cancelar</button>
+          <button class="btn btn-gradient-warm" type="submit">Buscar localização</button>
+        </div>
+      </form>
+    </dialog>
+
+    <template id="bloco-card-template">
+      <article class="card bloco-card" role="button" tabindex="0">
+        <h3 class="bloco-name"></h3>
+        <p class="bloco-distance"></p>
+        <p><strong>🕒 Concentração:</strong> <span class="bloco-time"></span></p>
+        <p><strong>📍 Endereço:</strong> <span class="bloco-address"></span></p>
+        <p class="bloco-metro"></p>
+        <div class="small-actions card-actions">
+          <button class="btn btn-small bloco-save" type="button">💾 Salvar no planejamento</button>
+        </div>
+      </article>
+    </template>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
