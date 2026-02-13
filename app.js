@@ -262,6 +262,12 @@ async function fetchWeather() {
 
   try {
     const response = await fetch(weatherURL);
+    if (!response.ok) {
+      console.warn('[BlocosRJ] Weather API returned non-OK status:', response.status);
+      restoreCachedWeather(true);
+      return;
+    }
+
     const data = await response.json();
     const weather = {
       temp: data.current?.temperature_2m,
