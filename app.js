@@ -214,6 +214,7 @@ async function prepareManualLocation(query) {
   try {
     const result = await geocodeQuery(query) || await geocodeQuery(`${query}, Brasil`);
     if (!result) {
+      state.pendingLocation = null;
       clearPendingLocation();
       setLocationUnavailable('Localização não encontrada para esse endereço.');
       return;
@@ -230,6 +231,8 @@ async function prepareManualLocation(query) {
     els.locationConfirmation.classList.remove('hidden');
     els.locationStatus.textContent = 'Confirme se este ponto está correto (estilo app de corrida).';
   } catch (_) {
+    state.pendingLocation = null;
+    clearPendingLocation();
     setLocationUnavailable('Falha ao buscar localização manual. Digite novamente em alguns segundos.');
   }
 }
