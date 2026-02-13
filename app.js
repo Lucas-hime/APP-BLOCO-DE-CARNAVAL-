@@ -199,30 +199,175 @@ function renderWeather(weather, stale = false) {
 }
 
 async function ensureDataLoaded() {
-  if (!state.blocos) {
-    const csvResponse = await fetch('./blocos.csv');
+  const [blocos, stations] = await Promise.all([
+    loadBlocosData(),
+    loadMetroStations(),
+  ]);
+
+  state.blocos = blocos;
+  state.metroStations = stations;
+}
+
+async function loadBlocosData() {
+  try {
+    const csvResponse = await fetch('blocos.csv', { cache: 'no-store' });
+    console.log('[BlocosRJ] CSV fetch status:', csvResponse.status, csvResponse.statusText);
+    if (!csvResponse.ok) {
+      throw new Error(`Falha ao carregar CSV: ${csvResponse.status}`);
+    }
+
     const csvText = await csvResponse.text();
-    state.blocos = parseCSV(csvText);
+    console.log('[BlocosRJ] CSV content length:', csvText.length);
+    const parsedRows = parseCSV(csvText);
+    console.log('[BlocosRJ] Parsed CSV rows:', parsedRows.length);
+
+    return parsedRows;
+  } catch (error) {
+    console.warn('[BlocosRJ] Failed to fetch latest CSV.', error);
+    return state.blocos || [];
   }
-  if (!state.metroStations.length) {
-    const metroResponse = await fetch('metro_stations.json');
-    state.metroStations = await metroResponse.json();
+}
+
+async function loadMetroStations() {
+  if (state.metroStations.length) {
+    return state.metroStations;
+  }
+
+  try {
+    const metroResponse = await fetch('metro_stations.json', { cache: 'no-store' });
+    if (!metroResponse.ok) {
+      throw new Error(`Falha ao carregar estações de metrô: ${metroResponse.status}`);
+    }
+    return await metroResponse.json();
+  } catch (error) {
+    console.warn('[BlocosRJ] Metro load failed.', error);
+    return [];
   }
 }
 
 function parseCSV(text) {
-  const lines = text.trim().split(/\r?\n/);
-  const headers = lines.shift().split(',');
-  return lines.map((line) => {
-    const values = line.split(',');
-    const obj = {};
-    headers.forEach((header, idx) => {
-      obj[header] = values[idx] ?? '';
-    });
-    obj.latitude = obj.latitude ? Number(obj.latitude) : null;
-    obj.longitude = obj.longitude ? Number(obj.longitude) : null;
-    return obj;
-  });
+  const normalized = text
+    .replace(/^\uFEFF/, '')
+    .replace(/\r\n?/g, '\n')
+    .trim();
+
+  if (!normalized) {
+    console.warn('[BlocosRJ] CSV is empty after normalization.');
+    return [];
+  }
+
+  const lines = normalized
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
+
+  const headerLine = lines.shift();
+  if (!headerLine) {
+    console.error('[BlocosRJ] CSV header line is empty.');
+    return [];
+  }
+
+  const separator = detectSeparator(headerLine);
+  if (!separator) {
+    console.error('[BlocosRJ] Could not detect CSV separator. Header line:', headerLine);
+    return [];
+  }
+
+  const headers = splitCSVLine(headerLine, separator).map((header) => header.trim());
+  const normalizedHeaders = headers.map(normalizeHeaderKey);
+
+  console.log('[BlocosRJ] CSV separator detected:', JSON.stringify(separator));
+
+  return lines
+    .map((line) => {
+      const values = splitCSVLine(line, separator).map((value) => value.trim());
+
+      if (values.every((value) => value === '')) {
+        return null;
+      }
+
+      const obj = {};
+      normalizedHeaders.forEach((header, idx) => {
+        obj[header] = values[idx] ?? '';
+      });
+
+      obj.latitude = parseCoordinate(obj.latitude);
+      obj.longitude = parseCoordinate(obj.longitude);
+      return obj;
+    })
+    .filter(Boolean);
+}
+
+function detectSeparator(headerLine) {
+  const candidates = [',', ';', '\t'];
+  let best = null;
+
+  for (const separator of candidates) {
+    const columns = splitCSVLine(headerLine, separator);
+    if (!best || columns.length > best.columns.length) {
+      best = { separator, columns };
+    }
+  }
+
+  return best && best.columns.length > 1 ? best.separator : null;
+}
+
+function normalizeHeaderKey(header) {
+  const key = header
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, '_');
+
+  const alias = {
+    nome: 'nome_bloco',
+    bloco: 'nome_bloco',
+    nome_do_bloco: 'nome_bloco',
+    endereco: 'endereco_concentracao',
+    endereco_da_concentracao: 'endereco_concentracao',
+    hora: 'hora_concentracao',
+  };
+
+  return alias[key] || key;
+}
+
+function parseCoordinate(value) {
+  if (value == null || value === '') return null;
+  const parsed = Number(String(value).replace(',', '.'));
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function splitCSVLine(line, separator = ',') {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i += 1) {
+    const char = line[i];
+    const nextChar = line[i + 1];
+
+    if (char === '"' && inQuotes && nextChar === '"') {
+      current += '"';
+      i += 1;
+      continue;
+    }
+
+    if (char === '"') {
+      inQuotes = !inQuotes;
+      continue;
+    }
+
+    if (char === separator && !inQuotes) {
+      result.push(current);
+      current = '';
+      continue;
+    }
+
+    current += char;
+  }
+
+  result.push(current);
+  return result;
 }
 
 async function findNearbyBlocos() {
@@ -243,6 +388,8 @@ async function findNearbyBlocos() {
     })
     .filter((bloco) => bloco.distance <= 5)
     .sort((a, b) => a.distance - b.distance);
+
+  console.log('[BlocosRJ] Nearby matches within 5km:', matches.length);
 
   renderResults(matches, 'nearby');
 }
@@ -274,7 +421,23 @@ function isInNextHours(dateText, hourText, start, end) {
 
 function toDate(dateText, hourText) {
   if (!dateText || !hourText) return null;
-  const [day, month, year] = dateText.split('/').map(Number);
+
+  const cleanDate = String(dateText).trim();
+  let day;
+  let month;
+  let year;
+
+  if (cleanDate.includes('/')) {
+    [day, month, year] = cleanDate.split('/').map(Number);
+  } else if (cleanDate.includes('-')) {
+    const pieces = cleanDate.split('-').map(Number);
+    if (pieces[0] > 999) {
+      [year, month, day] = pieces;
+    } else {
+      [day, month, year] = pieces;
+    }
+  }
+
   const [hour, minute] = hourText.split(':').map(Number);
   if ([day, month, year, hour, minute].some(Number.isNaN)) return null;
   return new Date(year, month - 1, day, hour, minute);
