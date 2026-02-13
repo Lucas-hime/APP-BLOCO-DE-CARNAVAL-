@@ -214,6 +214,7 @@ async function prepareManualLocation(query) {
   try {
     const result = await geocodeQuery(query) || await geocodeQuery(`${query}, Brasil`);
     if (!result) {
+      clearPendingLocation();
       setLocationUnavailable('Localização não encontrada para esse endereço.');
       return;
     }

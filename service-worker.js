@@ -7,7 +7,6 @@ const STATIC_ASSETS = [
   './manifest.json',
 ];
 
-const DATA_PATHS = new Set(['/blocos.csv', '/metro_stations.json']);
 const DATA_MAX_AGE_MS = 6 * 60 * 60 * 1000;
 
 self.addEventListener('install', (event) => {
@@ -37,13 +36,15 @@ self.addEventListener('fetch', (event) => {
 
   const requestURL = new URL(event.request.url);
   const isSameOrigin = requestURL.origin === self.location.origin;
+  const isDataRequest = requestURL.pathname.endsWith('blocos.csv')
+    || requestURL.pathname.endsWith('metro_stations.json');
 
   if (event.request.mode === 'navigate') {
     event.respondWith(networkFirstNavigation(event.request));
     return;
   }
 
-  if (isSameOrigin && DATA_PATHS.has(requestURL.pathname)) {
+  if (isDataRequest) {
     event.respondWith(networkFirstData(event.request));
     return;
   }
