@@ -101,20 +101,16 @@ async function networkFirstData(request) {
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
       await cache.put(request, await withCacheTimestamp(networkResponse));
+      return networkResponse;
     }
+
+    const cached = await getFreshDataCache(cache, request);
+    if (cached) return cached;
+
     return networkResponse;
   } catch (_) {
-    const cached = await cache.match(request);
-    if (!cached) return Response.error();
-
-    const cachedAt = Number(cached.headers.get('sw-fetched-at') || '0');
-    const isFreshEnough = cachedAt && (Date.now() - cachedAt) <= DATA_MAX_AGE_MS;
-
-    if (!isFreshEnough) {
-      return Response.error();
-    }
-
-    return cached;
+    const cached = await getFreshDataCache(cache, request);
+    return cached || Response.error();
   }
 }
 
@@ -125,12 +121,26 @@ async function networkFirstExternal(request) {
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
       await cache.put(request, await withCacheTimestamp(networkResponse));
+      return networkResponse;
     }
+
+    const cached = await cache.match(request);
+    if (cached) return cached;
+
     return networkResponse;
   } catch (_) {
     const cached = await cache.match(request);
     return cached || Response.error();
   }
+}
+
+async function getFreshDataCache(cache, request) {
+  const cached = await cache.match(request);
+  if (!cached) return null;
+
+  const cachedAt = Number(cached.headers.get('sw-fetched-at') || '0');
+  const isFreshEnough = cachedAt && (Date.now() - cachedAt) <= DATA_MAX_AGE_MS;
+  return isFreshEnough ? cached : null;
 }
 
 function isStaticAssetRequest(pathname) {
@@ -147,13 +157,14 @@ function isStaticAssetRequest(pathname) {
 }
 
 async function withCacheTimestamp(response) {
+  const responseForCache = response.clone();
   const headers = new Headers(response.headers);
   headers.set('sw-fetched-at', String(Date.now()));
 
-  const body = await response.blob();
+  const body = await responseForCache.blob();
   return new Response(body, {
-    status: response.status,
-    statusText: response.statusText,
+    status: responseForCache.status,
+    statusText: responseForCache.statusText,
     headers,
   });
 }
