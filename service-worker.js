@@ -29,7 +29,6 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((cached) => {
       if (cached) return cached;
-
       return fetch(event.request)
         .then((response) => {
           const cloned = response.clone();
@@ -38,13 +37,7 @@ self.addEventListener('fetch', (event) => {
           }
           return response;
         })
-        .catch(() => {
-          if (event.request.mode === 'navigate') {
-            return caches.match('./index.html');
-          }
-
-          return Response.error();
-        });
+        .catch(() => caches.match('./index.html'));
     }),
   );
 });
