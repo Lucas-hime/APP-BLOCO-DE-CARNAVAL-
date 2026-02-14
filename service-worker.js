@@ -100,7 +100,9 @@ async function networkFirstData(request) {
   try {
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
-      await cache.put(request, await withCacheTimestamp(networkResponse));
+      const responseClone = networkResponse.clone();
+      const cacheResponse = await withCacheTimestamp(responseClone);
+      await cache.put(request, cacheResponse);
       return networkResponse;
     }
 
@@ -120,7 +122,9 @@ async function networkFirstExternal(request) {
   try {
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
-      await cache.put(request, await withCacheTimestamp(networkResponse));
+      const responseClone = networkResponse.clone();
+      const cacheResponse = await withCacheTimestamp(responseClone);
+      await cache.put(request, cacheResponse);
       return networkResponse;
     }
 
