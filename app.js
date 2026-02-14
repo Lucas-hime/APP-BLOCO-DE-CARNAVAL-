@@ -74,8 +74,10 @@ function bindEvents() {
   els.clearResults.addEventListener('click', clearResults);
   els.confirmBloco.addEventListener('click', () => {
     if (!state.selectedBloco) return;
-    addBlocoToPlanning(state.selectedBloco);
-    alert(`Boa! ${state.selectedBloco.nome_bloco} foi salvo no seu planejamento 🎉`);
+    const didSave = addBlocoToPlanning(state.selectedBloco);
+    if (didSave) {
+      alert(`Boa! ${state.selectedBloco.nome_bloco} foi salvo no seu planejamento 🎉`);
+    }
   });
   els.saveSelectedBloco.addEventListener('click', () => {
     if (!state.selectedBloco) return;
@@ -263,8 +265,8 @@ async function fetchWeather() {
   try {
     const response = await fetch(weatherURL);
     if (!response.ok) {
-      console.warn('[BlocosRJ] Weather API returned non-OK status:', response.status);
-      restoreCachedWeather(true);
+      console.warn('Weather API error. Using cached weather.');
+      getCachedWeather();
       return;
     }
 
@@ -278,7 +280,7 @@ async function fetchWeather() {
     localStorage.setItem(WEATHER_KEY, JSON.stringify(weather));
     renderWeather(weather);
   } catch (_) {
-    restoreCachedWeather(true);
+    getCachedWeather();
   }
 }
 
@@ -297,6 +299,10 @@ function getMaxRainNextHours(hourly) {
   });
 
   return maxProb;
+}
+
+function getCachedWeather() {
+  restoreCachedWeather(true);
 }
 
 function restoreCachedWeather(fromError = false) {
@@ -805,7 +811,7 @@ function addBlocoToPlanning(bloco) {
   const id = bloco._id || buildBlocoId(bloco);
   if (state.planningIds.has(id)) {
     alert('Esse bloco já está no seu planejamento.');
-    return;
+    return false;
   }
 
   const plan = getPlanningList();
@@ -823,6 +829,8 @@ function addBlocoToPlanning(bloco) {
   if (els.planningCatalog.children.length) {
     renderPlanningCatalog();
   }
+
+  return true;
 }
 
 function getPlanningList() {
@@ -1020,7 +1028,10 @@ async function shareText(text, title) {
     try {
       await navigator.share({ text, title });
       return;
-    } catch (_) {
+    } catch (err) {
+      if (err?.name === 'AbortError') {
+        return;
+      }
       // fallback below
     }
   }
