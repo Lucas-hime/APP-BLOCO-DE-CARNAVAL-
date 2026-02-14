@@ -495,14 +495,25 @@ async function findNearbyBlocos() {
   }
   const blocosWithCoords = await enrichBlocosWithCoordinates(state.blocos);
 
+  const now = new Date();
+
   const matches = blocosWithCoords
     .filter((bloco) => Number.isFinite(bloco.latitude) && Number.isFinite(bloco.longitude))
-    .map((bloco) => ({
-      ...bloco,
-      distance: haversine(state.userLocation.latitude, state.userLocation.longitude, bloco.latitude, bloco.longitude),
-      metro: findNearestMetro(bloco),
-    }))
+    .map((bloco) => {
+      const blocoStartDateTime = toDate(bloco.data, bloco.hora_concentracao);
+      const blocoEndTime = blocoStartDateTime
+        ? new Date(blocoStartDateTime.getTime() + 3 * 60 * 60 * 1000)
+        : null;
+
+      return {
+        ...bloco,
+        distance: haversine(state.userLocation.latitude, state.userLocation.longitude, bloco.latitude, bloco.longitude),
+        metro: findNearestMetro(bloco),
+        blocoEndTime,
+      };
+    })
     .filter((bloco) => bloco.distance <= NEARBY_RADIUS_KM)
+    .filter((bloco) => bloco.blocoEndTime && now <= bloco.blocoEndTime)
     .sort((a, b) => a.distance - b.distance);
 
   console.log('[BlocosRJ] Total blocos loaded:', state.blocos.length);
